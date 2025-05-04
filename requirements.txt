@@ -1,0 +1,7 @@
+numpy
+pandas
+scikit-learn
+nltk
+joblib
+Flask==2.3.3
+flasgger==0.9.7.1
