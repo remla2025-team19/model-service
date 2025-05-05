@@ -7,6 +7,7 @@ from flask import Flask, jsonify, request
 from flasgger import Swagger
 import pandas as pd
 import pickle
+import os
 
 # from text_preprocessing import prepare, _extract_message_len, _text_process
 
@@ -61,7 +62,7 @@ def predict():
 @app.route('/dumbpredict', methods=['POST'])
 def dumb_predict():
     """
-    Predict whether a given SMS is Spam or Ham (dumb model: always predicts 'ham').
+    Predict whether a given review is positive or negative (dumb model: always predicts 'positive').
     ---
     consumes:
       - application/json
@@ -93,4 +94,8 @@ def dumb_predict():
 if __name__ == '__main__':
     clf = joblib.load('c2_Classifier_Sentiment_Model.joblib')
     
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    # Retrieve host and port from environment
+    HOST: str = os.getenv("MODEL_SERVICE_HOST", "0.0.0.0")
+    PORT: int = int(os.getenv("MODEL_SERVICE_PORT", "8080"))
+    print(f"HOST = {HOST}, PORT = {PORT}")
+    app.run(host=HOST, port=PORT, debug=True)
