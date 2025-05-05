@@ -33,5 +33,5 @@ jobs:
         --tag $IMG:${{ env.version_major }}.${{ env.version_minor }}.latest \
         --tag $IMG:${{ env.version_major }}.latest \
         --tag $IMG:latest \
-        W2/
+        .
         docker push --all-tags $IMG
