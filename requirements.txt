@@ -5,3 +5,4 @@ nltk
 joblib
 Flask==2.3.3
 flasgger==0.9.7.1
+remla2025-team19-lib-ml @ git+https://github.com/remla2025-team19/lib-ml.git@v1.0.0

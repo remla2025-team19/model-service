@@ -6,8 +6,17 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v4
-    - uses: docker/login-action@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to ghcr
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{github.actor}}
@@ -25,13 +34,22 @@ jobs:
         echo "version_minor=$MINOR" >> $GITHUB_ENV
         echo "version_patch=$PATCH" >> $GITHUB_ENV
 
-    - run: |
+        # Lowercase image name
         IMG="ghcr.io/${{github.repository}}"
-        IMG=${IMG@L} # lower case the image
-        docker build \
-        --tag $IMG:${{ env.version }} \
-        --tag $IMG:${{ env.version_major }}.${{ env.version_minor }}.latest \
-        --tag $IMG:${{ env.version_major }}.latest \
-        --tag $IMG:latest \
-        .
-        docker push --all-tags $IMG
+        IMG=${IMG@L}
+        echo "image=$IMG" >> $GITHUB_ENV
+
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64, linux/arm64
+        push: true
+        tags: |
+          $IMG:${{ env.version }} \
+          $IMG:${{ env.version_major }}.${{ env.version_minor }}.latest \
+          $IMG:${{ env.version_major }}.latest \
+          $IMG:latest \
+        
+        cache-from: type=gha
+        cache-to: type-gha, mode=max
