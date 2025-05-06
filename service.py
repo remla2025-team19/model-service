@@ -8,6 +8,7 @@ from flasgger import Swagger
 import pandas as pd
 import pickle
 import os
+from lib_ml.preprocessing import TextPreprocessor
 
 # from text_preprocessing import prepare, _extract_message_len, _text_process
 
@@ -17,6 +18,10 @@ prediction_map = {
     0: "negative",
     1: "positive"
 }
+
+classifier = None
+vectorizer = None
+preprocessor = TextPreprocessor()
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -43,11 +48,10 @@ def predict():
     """
     input_data = request.get_json()
     review = input_data.get('review')
+    corpus = preprocessor.preprocess_texts([review])
     # processed_sms = prepare(sms)
-    cv =  pickle.load(open("c1_BoW_Sentiment_Model.pkl", "rb"))
-    sms_query = cv.transform([review]).toarray()
-    model = joblib.load('c2_Classifier_Sentiment_Model.joblib')
-    prediction = model.predict(sms_query)[0]
+    features = vectorizer.transform(corpus).toarray()
+    prediction = classifier.predict(features)[0]
     print(f"Prediction: {prediction}, Type: {type(prediction)}")
     prediction = int(prediction)
     
@@ -92,8 +96,17 @@ def dumb_predict():
     })
 
 if __name__ == '__main__':
-    clf = joblib.load('c2_Classifier_Sentiment_Model.joblib')
+    model_path = 'sentiment_model.pkl'
     
+    try:
+      with open(model_path, 'rb') as f:
+        model_data = pickle.load(f)
+        print(f"Keys: {model_data.keys()}")
+        classifier = model_data['classifier']
+        vectorizer = model_data['vectorizer']
+    except Exception as e:
+       print(f"Error loading model: {e}")
+
     # Retrieve host and port from environment
     HOST: str = os.getenv("MODEL_SERVICE_HOST", "0.0.0.0")
     PORT: int = int(os.getenv("MODEL_SERVICE_PORT", "8080"))
