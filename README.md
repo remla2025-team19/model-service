@@ -7,7 +7,7 @@ These can be found in the Dockerfile. The default values are:
 
 ```dockerfile
 ENV MODEL_SERVICE_HOST=0.0.0.0
-ENV MODEL_SERVICE_PORT=80
+ENV MODEL_SERVICE_PORT=8080
 ```
 
 For the above value of host, the service can be accessed via the host machine. For other values, the service must be accessed from within the container.
@@ -22,7 +22,7 @@ Now the service is running within the ccontainer. To test, make use of another c
 docker exec -it <CONTAINER_ID> bash
 apt update
 apt install curl
-curl -X POST "http://127.13.5.13:69/predict" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"review\": \" The food is bad.\"}"
+curl -X POST "http://127.13.5.13:17/predict" -H "accept: application/json" -H "Content-Type: application/json" -d "{ \"review\": \" The food is bad.\"}"
 ```
 ## Pull image from GHCR
 ```bash
