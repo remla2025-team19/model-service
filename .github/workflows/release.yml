@@ -46,10 +46,10 @@ jobs:
         platforms: linux/amd64, linux/arm64
         push: true
         tags: |
-          $IMG:${{ env.version }} \
-          $IMG:${{ env.version_major }}.${{ env.version_minor }}.latest \
-          $IMG:${{ env.version_major }}.latest \
-          $IMG:latest \
+          ${{env.image}}:${{ env.version }} \
+          ${{env.image}}:${{ env.version_major }}.${{ env.version_minor }}.latest \
+          ${{env.image}}:${{ env.version_major }}.latest \
+          ${{env.image}}:latest \
         
         cache-from: type=gha
         cache-to: type=gha, mode=max
