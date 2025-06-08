@@ -30,8 +30,8 @@ jobs:
           PATCH=$((PATCH + 1))
 
           # Generate timestamp based pre-release
-          TIMESTAMP=${date + %Y%m%d%H%M%S}
-          PRE_VERSION="v${MAJOR}.${MINOR}.${PATCH}-pre.${TIMESTAMP}"
+          TIMESTAMP=$(date + %Y%m%d%H%M%S)
+          PRE_VERSION="v$MAJOR.$MINOR.$PATCH-pre.$TIMESTAMP"
 
           echo "pre_version=$PRE_VERSION" >> $GITHUB_OUTPUT
       
