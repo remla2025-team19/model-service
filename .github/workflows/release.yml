@@ -82,6 +82,19 @@ jobs:
         release_name: Release ${{env.version}}
         draft: false
         prerelease: false
+    
+    - name: Trigger lib-version Update
+      if: env.is_prerelease == 'false'
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{secrets.GH_TOKEN}}
+        repository: remla2025-team19/lib-version
+        event-type: version-Update
+        client-payload: |
+          {
+            "version": ${{env.version}},
+            "source_repo": "model-service"
+          }
 
     - name: Upload major version tag
       if: env.is_prerelease == 'false'
