@@ -33,7 +33,7 @@ jobs:
         VERSION=${GITHUB_REF:11}
 
         # Check if this is a pre-release
-        if [[ "$VERSION" == *-pre"*]]; then
+        if [[ "$VERSION" == *-pre*]]; then
           IS_PRE_RELEASE=true
         else
           IS_PRE_RELEASE=false
