@@ -89,7 +89,7 @@ jobs:
       with:
         token: ${{secrets.GH_TOKEN}}
         repository: remla2025-team19/lib-version
-        event-type: version-Update
+        event-type: version-update
         client-payload: |
           {
             "version": ${{env.version}},
