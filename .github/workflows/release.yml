@@ -92,7 +92,7 @@ jobs:
         event-type: version-update
         client-payload: |
           {
-            "version": ${{env.version}},
+            "version": "${{env.version}}",
             "source_repo": "model-service"
           }
 
