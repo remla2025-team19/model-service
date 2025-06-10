@@ -28,3 +28,6 @@ curl -X POST "http://127.13.5.13:17/predict" -H "accept: application/json" -H "C
 ```bash
 docker pull ghcr.io/remla2025-team19/model-service:0.0.5
 ```
+
+## Verisioning information
+To make a release, use tags without "pre" as a prefix. This will trigger the release workflow in ```release.yml```. For all other ```git push``` operations, the ```auto-tag.yml``` workflow will update the ```pre``` tags with a timestamp. When a release is made, then the corresponding version in ```lib-version``` is also updated.
