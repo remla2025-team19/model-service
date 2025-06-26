@@ -55,6 +55,23 @@ curl -X POST "http://localhost:8080/predict" -H "accept: application/json" -H "C
 docker pull ghcr.io/remla2025-team19/model-service:0.0.5
 ```
 
-## Verisioning information
+## Versioning Information (relevant to A1)
 
-To make a release, use tags without "pre" as a prefix. This will trigger the release workflow in `release.yml`. For all other `git push` operations, the `auto-tag.yml` workflow will update the `pre` tags with a timestamp. When a release is made, then the corresponding version in `lib-version` is also updated.
+We have implemented workflows that will update timestamps for a pre-release in the format `v{MAJOR}.{MINOR}.{PATCH}-pre-{TIMESTAMP}`.
+ 
+Pre-release tags are updated on a simple git push. For all other `git push` operations, the `auto-tag.yml` workflow will update the `pre` tags with a timestamp. When a release is made, then the corresponding version in `lib-version` is also updated.
+
+```bash
+git push
+```
+
+In order to create a release. Check the current pre-release information. This can be done using commands like 
+```bash
+git ls-remote --tags --sort="v:refname" origin
+```
+Choose the current pre-release version. Create a tag and push. This will create the a release with the versioning `v{MAJOR}.{MINOR}.{PATCH}`.
+
+```bash
+git tag v0.0.28
+git push origin v0.0.28
+```
