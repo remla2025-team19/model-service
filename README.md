@@ -72,6 +72,6 @@ git ls-remote --tags --sort="v:refname" origin
 Choose the current pre-release version. Create a tag and push. This will create the a release with the versioning `v{MAJOR}.{MINOR}.{PATCH}`.
 
 ```bash
-git tag v0.0.28
-git push origin v0.0.28
+git tag v0.0.10
+git push origin v0.0.10
 ```
