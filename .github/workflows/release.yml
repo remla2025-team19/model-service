@@ -1,7 +1,7 @@
 name: Model Service Release
 on:
   push:
-    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+    tags: ["v[0-9]+.[0-9]+.[0-9]+*"]
 
 permissions:
   contents: write
@@ -73,7 +73,6 @@ jobs:
           VERSION=${{env.version}}
 
     - name: Create Github Release
-      if: env.is_prerelease == 'false'
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{secrets.MS_RELEASE}}
@@ -81,7 +80,7 @@ jobs:
         tag_name: ${{env.version}}
         release_name: Release ${{env.version}}
         draft: false
-        prerelease: false
+        prerelease: ${{env.is_prerelease}}
     
     - name: Trigger lib-version Update
       if: env.is_prerelease == 'false'
